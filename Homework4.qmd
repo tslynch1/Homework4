@@ -1,0 +1,70 @@
+---
+title: "ST558 Homework #4"
+author: "Trevor Lynch"
+format: html
+editor: visual
+---
+
+# Task1: Conceptual Questions
+> 1. The purpose of the `lapply()`function is to apply a function to every element of a list, and output a list object. The equivalent function in the `purrr` package is `map(list_here, function_here)`.  
+> 2. The code to apply the cor() function, with a method = "kendall" option, to each element of the my_list object would be: `lapply(X = my_list, FUN = cor, method = "kendall")`
+> 3. One advantage of using the `purrr` package instead of `BaseR` apply functions is that is never any ambiguity in what type of output you will receive, deoending on the functions you use. Whereas with `sapply()` for example, we may not know what the output type will be. Another advantage of the `purrr` package is the functions allow for inline anonymous function writing within the function calls.
+> 4. A side-effect function is a function that, when called, will produce an output but not change the data. For example, the `print()` or `plot()` functions.
+> 5. A variable inside can be named `sd` without any conflict from the sd function because the `sd` variable is assigned locally within the function. This means that if `sd` is called outside of the function it will call the BaseR function rather than call the `sd` object saved within the other function. 
+
+# Task 2: Writing R Functions
+1. 
+```{r}
+#| echo: false
+2 * 2
+```
+
+2. 
+```{r}
+#| echo: false
+2 * 2
+```
+
+3. 
+```{r}
+#| echo: false
+2 * 2
+```
+
+4. 
+```{r}
+#| echo: false
+2 * 2
+```
+
+5. 
+```{r}
+#| echo: false
+2 * 2
+```
+
+6. 
+```{r}
+#| echo: false
+2 * 2
+```
+
+
+# Task 3: Querying an API and Tidy-Style Function
+1. 
+```{r}
+#| echo: false
+2 * 2
+```
+
+2. 
+```{r}
+#| echo: false
+2 * 2
+```
+
+3. 
+```{r}
+#| echo: false
+2 * 2
+```
