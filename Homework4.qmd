@@ -157,8 +157,8 @@ query_news <- function(topic, dateFrom, key){
   return(output_df)
 }
 
-# Calling the function
-query_news("tesla","2024-06-18","24fdc6b4e519406abfa9722af1ed312b")
+# Calling the function *head() used to limit the output
+head(query_news("tesla","2024-06-18","24fdc6b4e519406abfa9722af1ed312b"))
 
-query_news("south%20korea","2024-06-20","24fdc6b4e519406abfa9722af1ed312b")
+head(query_news("south%20korea","2024-06-20","24fdc6b4e519406abfa9722af1ed312b"))
 ```

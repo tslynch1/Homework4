@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Trevor Lynch">
+
+<title>ST558 Homework #4</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ST558 Homework #4</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Trevor Lynch </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="task-1-conceptual-questions" class="level1">
+<h1>Task 1: Conceptual Questions</h1>
+<blockquote class="blockquote">
+<ol type="1">
+<li>The purpose of the <code>lapply()</code>function is to apply a function to every element of a list, and output a list object. The equivalent function in the <code>purrr</code> package is <code>map(list_here, function_here)</code>.<br>
+</li>
+<li>The code to apply the cor() function, with a method = “kendall” option, to each element of the my_list object would be: <code>lapply(X = my_list, FUN = cor, method = "kendall")</code></li>
+<li>One advantage of using the <code>purrr</code> package instead of <code>BaseR</code> apply functions is that is never any ambiguity in what type of output you will receive, deoending on the functions you use. Whereas with <code>sapply()</code> for example, we may not know what the output type will be. Another advantage of the <code>purrr</code> package is the functions allow for inline anonymous function writing within the function calls.</li>
+<li>A side-effect function is a function that, when called, will produce an output but not change the data. For example, the <code>print()</code> or <code>plot()</code> functions.</li>
+<li>A variable inside can be named <code>sd</code> without any conflict from the sd function because when we call functions, R creates a temporary function environment so variables are not confused with any from the global environment. This means that if <code>sd</code> is called outside of the function it will call the function from the file’s current environment rather than call the <code>sd</code> object saved within the other function.</li>
+</ol>
+</blockquote>
+</section>
+<section id="task-2-writing-r-functions" class="level1">
+<h1>Task 2: Writing R Functions</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li>Write the getRMSE() function to take in 2 vectors and output the Root Mean Square Error. We need to allow for the option to be specified if we want missing values to be removed from the data before calculating.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>getRMSE <span class="ot">&lt;-</span> <span class="cf">function</span>(responses, preds, ...){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  sqd_diffs <span class="ot">&lt;-</span> (responses <span class="sc">-</span> preds)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  RMSE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(sqd_diffs, ...))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(RMSE)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Test the getRMSE() function, replace 2 responses with missing values and repeat the test specifying different ways to treat the missing values.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Artificially generate some response  and prediction values</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="fu">lm</span>(resp <span class="sc">~</span> x), <span class="fu">data.frame</span>(x))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the getRMSE() function </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">getRMSE</span>(resp,pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9581677</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace 2 responses with missing values </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>new_resp <span class="ot">&lt;-</span> <span class="fu">replace</span>(resp,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="cn">NA_real_</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the function while specifying, or not specifying, to remove missing values</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">getRMSE</span>(new_resp, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Removing missing values and retesting</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getRMSE</span>(new_resp, pred, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9661699</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Write the getMAE() function to take in 2 vectors and output the Mean Absolute Deviation. We need to allow for the option to be specified if we want missing values to be removed from the data before calculating.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>getMAE <span class="ot">&lt;-</span> <span class="cf">function</span>(responses, preds, ...){</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  abs_diffs <span class="ot">&lt;-</span> <span class="fu">abs</span>(responses <span class="sc">-</span> preds)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  MAE <span class="ot">&lt;-</span> <span class="fu">mean</span>(abs_diffs, ...)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(MAE)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="1">
+<li>Test the getMAE() function, replace 2 responses with missing values and repeat the test specifying different ways to treat the missing values.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Artificially generate some response  and prediction values</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="fu">lm</span>(resp <span class="sc">~</span> x), <span class="fu">data.frame</span>(x))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the getRMSE() function </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">getMAE</span>(resp,pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8155776</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace 2 responses with missing values </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>new_resp <span class="ot">&lt;-</span> <span class="fu">replace</span>(resp,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="cn">NA_real_</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the function while specifying, or not specifying, to remove missing values</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">getMAE</span>(new_resp, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Removing missing values and retesting</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getMAE</span>(new_resp, pred, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8241201</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Create a wrapper function that calls both of the function above and outputs the solution for the function(s) that is/are requested in the function call.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>wrapper_function <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">metrics =</span> <span class="st">"both"</span>, responses, preds, ...){</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Use conditional logic to check the inputs are numeric vectors</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ((<span class="fu">is.vector</span>(responses)) <span class="sc">&amp;</span> (<span class="fu">is.numeric</span>(responses)) <span class="sc">&amp;</span> (<span class="fu">is.vector</span>(preds)) <span class="sc">&amp;</span> (<span class="fu">is.numeric</span>(preds))) {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check the input metric chosen and output the appropriate result(s)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (metrics <span class="sc">==</span> <span class="st">"RMSE"</span>) {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      RMSE_result <span class="ot">&lt;-</span> <span class="fu">getRMSE</span>(responses, preds, ...)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">list</span>(<span class="st">"RMSE"</span> <span class="ot">=</span> RMSE_result))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="cf">if</span> (metrics <span class="sc">==</span> <span class="st">"MAE"</span>) {</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>      MAE_result <span class="ot">&lt;-</span> <span class="fu">getMAE</span>(responses, preds, ...)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">list</span>(<span class="st">"MAE"</span> <span class="ot">=</span> MAE_result))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> {</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>      RMSE_result <span class="ot">&lt;-</span> <span class="fu">getRMSE</span>(responses, preds, ...)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>      MAE_result <span class="ot">&lt;-</span> <span class="fu">getMAE</span>(responses, preds, ...)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">list</span>(<span class="st">"RMSE"</span> <span class="ot">=</span> RMSE_result, <span class="st">"MAE"</span> <span class="ot">=</span> MAE_result))</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For non-numeric vectors or non-vectors, print the Error message</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="fu">paste0</span>(<span class="st">"Error: One or both of the input values are not numeric vectors"</span>))</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="6" type="1">
+<li>Test the wrapper function with different input value combinations.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Artificially generate some response  and prediction values</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="fu">lm</span>(resp <span class="sc">~</span> x), <span class="fu">data.frame</span>(x))</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Test function using the simulated data, calling for each metric separately then together (default)</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">wrapper_function</span>(<span class="st">"RMSE"</span>, resp, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$RMSE
+[1] 0.9581677</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wrapper_function</span>(<span class="st">"MAE"</span>, resp, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$MAE
+[1] 0.8155776</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wrapper_function</span>(<span class="at">responses =</span> resp, <span class="at">preds =</span> pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$RMSE
+[1] 0.9581677
+
+$MAE
+[1] 0.8155776</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace 2 of the response values with missing values and repeat</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>new_resp <span class="ot">&lt;-</span> <span class="fu">replace</span>(resp,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="cn">NA_real_</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wrapper_function</span>(<span class="st">"RMSE"</span>, new_resp, pred, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$RMSE
+[1] 0.9661699</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wrapper_function</span>(<span class="st">"MAE"</span>, new_resp, pred, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$MAE
+[1] 0.8241201</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wrapper_function</span>(<span class="at">responses =</span> new_resp, <span class="at">preds =</span> pred, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$RMSE
+[1] 0.9661699
+
+$MAE
+[1] 0.8241201</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pass the function incorrect data (first create a data frame to pass it)</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>input_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(resp,pred))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wrapper_function</span>(<span class="at">responses =</span> input_data, <span class="at">preds =</span> pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Error: One or both of the input values are not numeric vectors"</code></pre>
+</div>
+</div>
+</section>
+<section id="task-3-querying-an-api-and-tidy-style-function" class="level1">
+<h1>Task 3: Querying an API and Tidy-Style Function</h1>
+<ol type="1">
+<li>Build the URL for finding the top Business headlines in the US.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>URL_ids <span class="ot">&lt;-</span> <span class="st">"https://newsapi.org/v2/top-headlines?country=us&amp;category=business&amp;apiKey=24fdc6b4e519406abfa9722af1ed312b"</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>bus_info <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(URL_ids)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># str(bus_info)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Parse the data and return the actual article information as a tibble.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>parsed_business_news <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="fu">rawToChar</span>(bus_info<span class="sc">$</span>content))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># str(parsed_business_news)</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>business_tib <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(parsed_business_news<span class="sc">$</span>articles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Write the <code>query_news</code> function to easily query this API given a subject, time period to search from, and an API key.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>query_news <span class="ot">&lt;-</span> <span class="cf">function</span>(topic, dateFrom, key){</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  input_URL <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"https://newsapi.org/v2/everything?q="</span>,topic,<span class="st">"&amp;from="</span>,dateFrom,<span class="st">"&amp;apiKey="</span>,key)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  info_from_URL <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">GET</span>(input_URL)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  parsed_data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="fu">rawToChar</span>(info_from_URL<span class="sc">$</span>content))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  output_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(parsed_data<span class="sc">$</span>articles)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(output_df)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calling the function *head() used to limit the output</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">query_news</span>(<span class="st">"tesla"</span>,<span class="st">"2024-06-18"</span>,<span class="st">"24fdc6b4e519406abfa9722af1ed312b"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         source.id      source.name         author
+1 business-insider Business Insider     Jaures Yip
+2 business-insider Business Insider     Tom Carter
+3 business-insider Business Insider    Ana Altchek
+4 business-insider Business Insider Beatrice Nolan
+5 business-insider Business Insider Theron Mohamed
+6 business-insider Business Insider  Kelsey Vlamis
+                                                                                                                title
+1                            Elon Musk's gamer streams are a new way to hear him riff on Tesla, SpaceX, and Neuralink
+2                                                              How Chinese EV makers are slowly taking over the world
+3                               New Tesla video shows an early glimpse at how Elon Musk's robotaxi service could look
+4                       Firefighters smashed a Tesla's window to rescue a toddler after the battery died, report says
+5 Elon Musk predicts universal basic income will take off once AI replaces workers. Read his 8 best quotes about UBI.
+6                                                                           China can't get enough of Elon Musk's mom
+                                                                                                                                           description
+1                              Elon Musk has been streaming video games on X while talking about future plans with Tesla, SpaceX, Neuralink, and more.
+2                                 China's Tesla rivals, like BYD, are expanding rapidly in developing markets like Brazil, Mexico, and Southeast Asia.
+3                                                   A demo video sheds more light on what Tesla is cooking up ahead of an August 8 Robotaxi unveiling.
+4   Firefighters in Scottsdale were called after a woman could not open the doors of a car containing her 20-month-old granddaughter, the report said.
+5     The Tesla and SpaceX chief predicts a "universal high income" as AI replaces workers, giving them more freedom in how they spend time and money.
+6 Maye Musk has become something of an influencer in China, according to a Wall Street Journal report. Meanwhile, Tesla sales are struggling in China.
+                                                                                                            url
+1                 https://www.businessinsider.com/elon-musk-gamer-streams-riff-on-tesla-spacex-neuralink-2024-6
+2                         https://www.businessinsider.com/byd-saic-chinese-ev-makers-plot-world-takeover-2024-6
+3                                  https://www.businessinsider.com/tesla-robotaxi-ride-hailing-app-video-2024-6
+4        https://www.businessinsider.com/tesla-toddler-rescued-firefighters-battery-died-doors-locked-ev-2024-6
+5 https://www.businessinsider.com/elon-musk-universal-basic-income-ubi-ai-automation-unemployment-quotes-2024-6
+6                                https://www.businessinsider.com/china-cant-get-enough-of-elon-musks-mom-2024-6
+                                                             urlToImage
+1 https://i.insider.com/66708cf6ed9a404d829e74bf?width=1200&amp;format=jpeg
+2 https://i.insider.com/6669b825764df1611258f121?width=1200&amp;format=jpeg
+3 https://i.insider.com/667431742efa138e0331174c?width=1200&amp;format=jpeg
+4 https://i.insider.com/663bd696f27898f532d5350b?width=1200&amp;format=jpeg
+5 https://i.insider.com/66758bf7886e840164beb996?width=1200&amp;format=jpeg
+6 https://i.insider.com/66762c9365f501a8818158f6?width=1200&amp;format=jpeg
+           publishedAt
+1 2024-06-18T09:43:02Z
+2 2024-06-22T09:22:01Z
+3 2024-06-20T17:01:27Z
+4 2024-06-20T14:40:42Z
+5 2024-06-22T12:14:01Z
+6 2024-06-22T02:35:58Z
+                                                                                                                                                                                                                    content
+1  Tesla CEO Elon Musk.Beata Zawrzel/NurPhoto via Getty Images\r\n&lt;ul&gt;&lt;li&gt;Fans can tune into Elon Musk's gamer livestreams on X, which can last multiple hours.&lt;/li&gt;&lt;li&gt;Musk streams under the handle cyb3rg… [+3160 chars]
+2 Chinese EV players are expanding rapidly in developing markets like Brazil, Mexico, and Southeast Asia.iStock; Rebecca Zisser/BI\r\n&lt;ul&gt;&lt;li&gt;China's EV upstarts appear to be plotting world domination.&nbsp;&lt;… [+12687 chars]
+3  The robotaxi will be unveiled on August 8.Patrick Pleul/Getty\r\n&lt;ul&gt;&lt;li&gt;A Tesla employee posted a video of a ride-hailing platform on LinkedIn, following previous teasers.&lt;/li&gt;&lt;li&gt;The video shows the … [+3494 chars]
+4  A Tesla Supercharger.John Keeble/Getty Images\r\n&lt;ul&gt;&lt;li&gt;A toddler was rescued from a locked Tesla after the car's battery died, a report says.&lt;/li&gt;&lt;li&gt;The child's grandmother called 911 after she was … [+1757 chars]
+5  Elon MuskPatrick Pleul/AFP/Getty Images\r\n&lt;ul&gt;&lt;li&gt;Elon Musk sees universal basic income as a necessary response to automation eliminating human jobs.&lt;/li&gt;&lt;li&gt;The Tesla chief predicts there will be&nbsp;"un… [+3544 chars]
+6  Maye Musk's book "A Woman Makes A Plan" was a bestseller in China.Zhijian Liu/Getty Images\r\n&lt;ul&gt;&lt;li&gt;Maye Musk, the mother of Elon Musk, is really popular in China.&lt;/li&gt;&lt;li&gt;The model and dietician is … [+2528 chars]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">query_news</span>(<span class="st">"south%20korea"</span>,<span class="st">"2024-06-20"</span>,<span class="st">"24fdc6b4e519406abfa9722af1ed312b"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         source.id         source.name         author
+1 business-insider    Business Insider     Tom Porter
+2             &lt;NA&gt;            BBC News           &lt;NA&gt;
+3             &lt;NA&gt; Yahoo Entertainment KIM TONG-HYUNG
+4             &lt;NA&gt;            BBC News           &lt;NA&gt;
+5             &lt;NA&gt; Yahoo Entertainment      Greg Rasa
+6             &lt;NA&gt;            BBC News           &lt;NA&gt;
+                                                                                                        title
+1 South Korea said it might send weapons to Ukraine after Putin signed a security pact with its biggest enemy
+2                                                 North Korea building border ‘wall’, satellite images reveal
+3          North Korea says deal between Putin and Kim requires immediate military assistance in event of war
+4                                                   Human waste and old clothes in North Korea trash balloons
+5                                                    Hyundai's union in South Korea votes to authorize strike
+6                                                     Putin arrives in Vietnam in test for 'bamboo diplomacy'
+                                                                                                                                                                                                                                                              description
+1                                                                                                                                                                                  A new security pact between Russia and North Korea has alarmed US allies in east Asia.
+2                                                                                                                            North Korea is building sections of what appears to be a wall in several places near its border with South Korea, new satellite images show.
+3                                                                                                        The new agreement between Russia and North Korea reached by their leaders at a Pyongyang summit requires both countries to use all available means to provide...
+4                                                                                                                                                                   Parasites and ruined Hello Kitty clothes were found in balloons sent into South Korea from the north.
+5 Filed under:\n UAW/Unions,Hyundai\n Continue reading Hyundai's union in South Korea votes to authorize strike\nHyundai's union in South Korea votes to authorize strike originally appeared on Autoblog on Mon, 24 Jun 2024 09:00:00 EDT. Please see our terms for use…
+6                                                                                                                                                                  Putin's Vietnam trip is being interpreted as displaying the support Russia still enjoys in the region.
+                                                                                                      url
+1      https://www.businessinsider.com/south-korea-could-arm-ukraine-after-russia-north-korea-pact-2024-6
+2                                                          https://www.bbc.com/news/articles/c2qq7x594vqo
+3                                 https://www.yahoo.com/news/north-korea-says-deal-between-014918001.html
+4                                                          https://www.bbc.com/news/articles/cj777rvym8eo
+5 https://consent.yahoo.com/v2/collectConsent?sessionId=1_cc-session_99a2c39e-e277-412d-bcca-669a9b55f685
+6                                                          https://www.bbc.com/news/articles/cw44z3k997do
+                                                                                                                                                              urlToImage
+1                                                                                                  https://i.insider.com/66754757423319f0c3723eed?width=1200&amp;format=jpeg
+2                                                                     https://ichef.bbci.co.uk/news/1024/branded_news/6c2f/live/232f9d80-2f10-11ef-90be-b75b34b0bbb2.png
+3 https://s.yimg.com/ny/api/res/1.2/EkRIs0ocMV1emWevbBT4yQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD04MDA-/https://media.zenfs.com/en/ap.org/c45e80dc05b528c8e3e09834848d4c15
+4                                                                     https://ichef.bbci.co.uk/news/1024/branded_news/eef0/live/394c6b30-321b-11ef-9c8c-fb8c1c7c7566.jpg
+5                                                                                                                                                                   &lt;NA&gt;
+6                                                                     https://ichef.bbci.co.uk/news/1024/branded_news/876a/live/a4d7daf0-2eb6-11ef-a0be-f7b087b73d49.jpg
+           publishedAt
+1 2024-06-21T11:01:37Z
+2 2024-06-20T23:59:34Z
+3 2024-06-20T01:49:18Z
+4 2024-06-24T11:17:45Z
+5 2024-06-24T13:00:00Z
+6 2024-06-20T03:56:32Z
+                                                                                                                                                                                                                     content
+1   Russian President Vladimir Putin (C-L) and North Korean Supreme Leader Kim Jong Un attend a welcoming ceremony on June 19, 2024 in Pyongyang, North Korea.Contributor via Getty Images\r\n&lt;ul&gt;&lt;li&gt;South K… [+2785 chars]
+2 By&nbsp;Jake Horton,&nbsp;Yi Ma,&nbsp;Daniele Palumbo,&nbsp;BBC Verify\r\nNorth Korea is building sections of what appears to be a wall in several places near its border with South Korea, new satellite images reveal.\r\nIma… [+4910 chars]
+3     SEOUL, South Korea (AP) The new agreement between Russia and North Korea reached by their leaders at a Pyongyang summit requires both countries to use all available means to provide immediate militar… [+4347 chars]
+4   Parasites from human waste and defaced Hello Kitty clothing were found in bags of rubbish carried by North Korean balloons into South Korea, officials say.\r\nHundreds of waste-carrying balloons have b… [+2460 chars]
+5      If you click 'Accept all', we and our partners, including 237 who are part of the IAB Transparency &amp;amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+678 chars]
+6 By&nbsp;Jonathan Head,&nbsp;BBC News, South East Asia correspondent\r\nRussian President Vladimir Putin has arrived in the Vietnamese capital Hanoi on the second stop of an East Asian tour. \r\nThe trip, which com… [+4180 chars]</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
