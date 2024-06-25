@@ -10,9 +10,15 @@ editor: visual
 > 2. The code to apply the cor() function, with a method = "kendall" option, to each element of the my_list object would be: `lapply(X = my_list, FUN = cor, method = "kendall")`
 > 3. One advantage of using the `purrr` package instead of `BaseR` apply functions is that is never any ambiguity in what type of output you will receive, deoending on the functions you use. Whereas with `sapply()` for example, we may not know what the output type will be. Another advantage of the `purrr` package is the functions allow for inline anonymous function writing within the function calls.
 > 4. A side-effect function is a function that, when called, will produce an output but not change the data. For example, the `print()` or `plot()` functions.
-> 5. A variable inside can be named `sd` without any conflict from the sd function because the `sd` variable is assigned locally within the function. This means that if `sd` is called outside of the function it will call the BaseR function rather than call the `sd` object saved within the other function. 
+> 5. A variable inside can be named `sd` without any conflict from the sd function because when we call functions, R creates a temporary function environment so variables are not confused with any from the global environment. This means that if `sd` is called outside of the function it will call the function from the file's current environment rather than call the `sd` object saved within the other function. 
 
 # Task 2: Writing R Functions
+```{r message = FALSE, warning = FALSE}
+library(tidyverse)
+library(jsonlite)
+```
+
+
 1. Write the getRMSE() function to take in 2 vectors and output the Root Mean Square Error. We need to allow for the option to be specified if we want missing values to be removed from the data before calculating.
 ```{r}
 getRMSE <- function(responses, preds, ...){
@@ -31,9 +37,10 @@ x <- runif(n)
 resp <- 3 + 10*x + rnorm(n)
 pred <- predict(lm(resp ~ x), data.frame(x))
 
-# Test the getRMSE() function, replace 2 responses with missing values and repeat the test specifying different ways to treat the missing values
+# Test the getRMSE() function 
 getRMSE(resp,pred)
 
+# Replace 2 responses with missing values 
 new_resp <- replace(resp,c(1,2), NA_real_)
 
 # Test the function while specifying, or not specifying, to remove missing values
@@ -60,9 +67,10 @@ x <- runif(n)
 resp <- 3 + 10*x + rnorm(n)
 pred <- predict(lm(resp ~ x), data.frame(x))
 
-# Test the getRMSE() function, replace 2 responses with missing values and repeat the test specifying different ways to treat the missing values
+# Test the getRMSE() function 
 getMAE(resp,pred)
 
+# Replace 2 responses with missing values 
 new_resp <- replace(resp,c(1,2), NA_real_)
 
 # Test the function while specifying, or not specifying, to remove missing values
@@ -73,32 +81,84 @@ getMAE(new_resp, pred, na.rm = TRUE)
 
 5. Create a wrapper function that calls both of the function above and outputs the solution for the function(s) that is/are requested in the function call.
 ```{r}
-
-
+wrapper_function <- function(metrics = "both", responses, preds, ...){
+  # Use conditional logic to check the inputs are numeric vectors
+  if ((is.vector(responses)) & (is.numeric(responses)) & (is.vector(preds)) & (is.numeric(preds))) {
+    # Check the input metric chosen and output the appropriate result(s)
+    if (metrics == "RMSE") {
+      RMSE_result <- getRMSE(responses, preds, ...)
+      return(list("RMSE" = RMSE_result))
+      }
+    else if (metrics == "MAE") {
+      MAE_result <- getMAE(responses, preds, ...)
+      return(list("MAE" = MAE_result))
+      }
+    else {
+      RMSE_result <- getRMSE(responses, preds, ...)
+      MAE_result <- getMAE(responses, preds, ...)
+      return(list("RMSE" = RMSE_result, "MAE" = MAE_result))
+    }
+  }
+  # For non-numeric vectors or non-vectors, print the Error message
+  else {
+   return(paste0("Error: One or both of the input values are not numeric vectors"))
+  }
+}
 ```
 
-6. 
+6. Test the wrapper function with different input value combinations.
 ```{r}
-#| echo: false
-2 * 2
+# Artificially generate some response  and prediction values
+set.seed(10)
+n <- 100
+x <- runif(n)
+resp <- 3 + 10*x + rnorm(n)
+pred <- predict(lm(resp ~ x), data.frame(x))
+
+# Test function using the simulated data, calling for each metric separately then together (default)
+wrapper_function("RMSE", resp, pred)
+wrapper_function("MAE", resp, pred)
+wrapper_function(responses = resp, preds = pred)
+
+# Replace 2 of the response values with missing values and repeat
+new_resp <- replace(resp,c(1,2), NA_real_)
+wrapper_function("RMSE", new_resp, pred, na.rm = T)
+wrapper_function("MAE", new_resp, pred, na.rm = T)
+wrapper_function(responses = new_resp, preds = pred, na.rm = T)
+
+# Pass the function incorrect data (first create a data frame to pass it)
+input_data <- as.data.frame(cbind(resp,pred))
+wrapper_function(responses = input_data, preds = pred)
 ```
 
 
 # Task 3: Querying an API and Tidy-Style Function
-1. 
+1. Build the URL for finding the top Business headlines in the US.
 ```{r}
-#| echo: false
-2 * 2
+URL_ids <- "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=24fdc6b4e519406abfa9722af1ed312b"
+bus_info <- httr::GET(URL_ids)
+# str(bus_info)
 ```
 
-2. 
+2. Parse the data and return the actual article information as a tibble.
 ```{r}
-#| echo: false
-2 * 2
+parsed_business_news <- fromJSON(rawToChar(bus_info$content))
+# str(parsed_business_news)
+business_tib <- as_tibble(parsed_business_news$articles)
 ```
 
-3. 
+3. Write the `query_news` function to easily query this API given a subject, time period to search from, and an API key.
 ```{r}
-#| echo: false
-2 * 2
+query_news <- function(topic, dateFrom, key){
+  input_URL <- paste0("https://newsapi.org/v2/everything?q=",topic,"&from=",dateFrom,"&apiKey=",key)
+  info_from_URL <- httr::GET(input_URL)
+  parsed_data <- fromJSON(rawToChar(info_from_URL$content))
+  output_df <- as.data.frame(parsed_data$articles)
+  return(output_df)
+}
+
+# Calling the function
+query_news("tesla","2024-06-18","24fdc6b4e519406abfa9722af1ed312b")
+
+query_news("south%20korea","2024-06-20","24fdc6b4e519406abfa9722af1ed312b")
 ```
